@@ -47,4 +47,13 @@
 
     <!-- Use @Controller, @Service... annotations -->
     <context:component-scan base-package="com.aaron"/>
+
+    <!--捕获shiro注解unauthorizedUrl参数不起作用的异常-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">/unauthorized</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

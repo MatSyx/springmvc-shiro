@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>login page</h1>
-<form id="" action="/dologin" method="post">
+<form id="" action="/login" method="post">
     <label>User Name</label>
     <input tyep="text" name="username" maxLength="40"/>
     <label>Password</label>

@@ -35,6 +35,10 @@
     <logger name="org.springframework.security">
         <level value="DEBUG"/>
     </logger>
+    
+    <logger name="org.apache.shiro">
+        <level value="DEBUG"/>
+    </logger>
 
     <logger name="com.aaron.mapper">
         <level value="TRACE"/>

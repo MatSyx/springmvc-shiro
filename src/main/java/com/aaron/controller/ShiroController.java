@@ -1,6 +1,7 @@
 package com.aaron.controller;
 
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -28,5 +29,10 @@ public class ShiroController {
     @RequestMapping("/needPermissionUserVOC")
     public String needPermissionUserViewOrCreate(){
         return "authority/needPermissionUserVOC";
+    }
+
+    @RequestMapping("/adminUnauthorized")
+    public String adminUnauthorized(){
+        return "authority/adminUnauthorized";
     }
 }
