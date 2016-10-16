@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,6 +28,9 @@ import java.io.IOException;
 @Controller
 @Slf4j
 public class SiteController {
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @RequestMapping("/")
     public String index() {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="shirocache">
+    <!--<defaultCache-->
+            <!--maxElementsInMemory="10000"-->
+            <!--eternal="false"-->
+            <!--timeToIdleSeconds="120"-->
+            <!--timeToLiveSeconds="120"-->
+            <!--overflowToDisk="false"-->
+            <!--diskPersistent="false"-->
+            <!--diskExpiryThreadIntervalSeconds="120"-->
+    <!--/>-->
+    <!-- 授权缓存 -->
+    <cache name="authorizationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+    <!-- 认证缓存 -->
+    <cache name="authenticationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+    <cache name="shiro-activeSessionCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+</ehcache>

@@ -21,6 +21,7 @@
         <input type="password" name="password"/>
     </div>
     <div>
+        下次自动登录：<input type="checkbox" name="rememberMe" value="true"/><br/>
         <label>验证码</label><input type="text" name="captcha"/>
         <img id="verifyCodeImage" onclick="reloadVerifyCode()" name="captcha" src="/captcha"/>
     </div>

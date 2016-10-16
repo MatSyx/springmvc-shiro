@@ -4,13 +4,26 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Root Context: defines shared resources visible to all other web components -->
-    <bean id="myRealm" class="com.aaron.realm.MyRealm"/>
+    <!--shiro-ehcache -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+    </bean>
+    <bean id="myRealm" class="com.aaron.realm.MyRealm">
+        <!--<property name="credentialsMatcher" ref="credentialsMatcher" />-->
+        <property name="cachingEnabled" value="true"/>
+        <!--<property name="cacheManager" ref="shiroEhcacheManager"/>-->
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
         <property name="realm" ref="myRealm"/>
         <!-- By default the servlet container sessions will be used.  Uncomment this line
              to use shiro's native sessions (see the JavaDoc for more): -->
         <!-- <property name="sessionMode" value="native"/> -->
+        <property name="cacheManager" ref="shiroEhcacheManager"/>
     </bean>
 
     <!--filterChainDefinitions参数说明,注意其验证顺序是自上而下-->
@@ -66,11 +79,6 @@
             </value>
         </property>
     </bean>
-
-    <!--shiro-ehcache 未实现  -->
-    <!--<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
-    <!--<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>-->
-    <!--</bean>-->
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
