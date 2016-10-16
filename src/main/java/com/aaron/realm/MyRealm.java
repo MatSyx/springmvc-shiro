@@ -6,12 +6,15 @@ import com.aaron.service.PermissionService;
 import com.aaron.service.RoleService;
 import com.aaron.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -61,10 +64,20 @@ public class MyRealm extends AuthorizingRealm {
         log.info("当前subject的token为：{}", token);
         User user = userService.getByUsername(token.getUsername());
         if (null != user) {
-            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),getName());
+            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
+            setSession("currentUser", user);
             return authcInfo;
         } else {
             return null;
+        }
+    }
+
+    private void setSession(Object key, Object value) {
+        Subject subject = SecurityUtils.getSubject();
+        if (null != subject) {
+            Session session = subject.getSession();
+            log.info("Session默认超时时间为：[{}] 毫秒", session.getTimeout());
+            session.setAttribute(key, value);
         }
     }
 }

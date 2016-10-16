@@ -13,12 +13,24 @@
 <body>
 <h1>login page</h1>
 <form id="" action="/login" method="post">
-    <label>User Name</label>
-    <input tyep="text" name="username" maxLength="40"/>
-    <label>Password</label>
-    <input type="password" name="password"/>
+    <div>
+        <label>User Name</label>
+        <input tyep="text" name="username" maxLength="40"/>
+    </div>
+    <div><label>Password</label>
+        <input type="password" name="password"/>
+    </div>
+    <div>
+        <label>验证码</label><input type="text" name="captcha"/>
+        <img id="verifyCodeImage" onclick="reloadVerifyCode()" name="captcha" src="/captcha"/>
+    </div>
     <input type="submit" value="login"/>
     <p>${message}</p>
 </form>
 </body>
+<script>
+    function reloadVerifyCode(){
+        document.getElementById("verifyCodeImage").setAttribute("src","/captcha");
+    }
+</script>
 </html>
