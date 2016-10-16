@@ -38,30 +38,20 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String doLogin(User user, HttpServletRequest request, Model model) {
-        log.info("======用户进入了SiteController的doLogin======");
+    public String login(User user, HttpServletRequest request, Model model) {
+        log.info("======用户进入了SiteController的login======");
+        String returnUrl="";
         String msg="";
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         token.setRememberMe(true);
+        log.info("token={}",token);
         Subject subject = SecurityUtils.getSubject();
         try {
             log.info("对用户[" + user.getUsername() + "]进行登录验证..验证开始");
             subject.login(token);
             log.info("对用户[" + user.getUsername() + "]进行登录验证..验证通过");
-            return "forward:/";
-//            if (subject.isAuthenticated()) {
-//                request.getSession().setAttribute("currentUser", user);
-//                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-//                if (savedRequest == null || savedRequest.getRequestURI() == null) {
-//                    log.info("打开首页");
-//                    return "redirect:/";
-//                } else {
-//                    log.info("打开之前的页面");
-//                    return "forward:" + savedRequest.getRequestURI();
-//                }
-//            } else {
-//                return "redirect:/login";
-//            }
+            request.getSession().setAttribute("currentUser", user);
+            returnUrl="redirect:/";
         } catch (IncorrectCredentialsException e) {
             msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
             model.addAttribute("message", msg);
@@ -90,8 +80,10 @@ public class SiteController {
             log.info("用户[" + user.getUsername() + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
         }else{
             token.clear();
+            returnUrl="login";//登录失败
         }
-        return "login";
+        log.info("returnUrl={}",returnUrl);
+        return returnUrl;
     }
 
     @RequestMapping("/saveUrl")

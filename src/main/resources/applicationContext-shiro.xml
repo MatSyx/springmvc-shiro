@@ -15,7 +15,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/"/>
+        <!--<property name="successUrl" value="/"/>-->
         <property name="unauthorizedUrl" value="/unauthorized"/>
         <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
         <!-- defined will be automatically acquired and available via its beanName in chain        -->
@@ -27,16 +27,23 @@
         </property> -->
         <property name="filterChainDefinitions">
             <value>
+                /login=anon
                 /adminUnauthorized = roles[admin]
                 /** = authc
             </value>
         </property>
     </bean>
 
+    <!--缓存还未实现-->
+    <!--<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>-->
+    <!--</bean>-->
+
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
     <!-- the lifecycleBeanProcessor has run: -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
